@@ -1,0 +1,51 @@
+.btn-spin {
+    background-color: #4D79C2;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    min-width: 150px;
+    text-align: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    width: auto;
+    padding: 11px;
+    border: 0;
+    border-radius: 7px;
+    margin-left: 21px;
+    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) inset,
+    1px 1px 3px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease-in-out;
+}
+.btn-spin:before {
+    content: attr(data-content-default);
+}
+.btn-spin:active {
+    -webkit-animation: spinner 200ms infinite linear;
+    animation: spinner 200ms infinite linear;
+}
+.btn-spin:active:before {
+    content: attr(data-content-spinning);
+}
+@-webkit-keyframes spinner {
+    from {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transform: rotateX(0) rotateY(-360deg);
+    }
+    to {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transform: rotateX(360deg) rotateY(-360deg);
+    }
+}
+@keyframes spinner {
+    from {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transform: rotateX(0) rotateY(-360deg);
+    }
+    to {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transform: rotateX(360deg) rotateY(-360deg);
+    }
+}
