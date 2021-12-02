@@ -30,6 +30,7 @@
       </table>
     </div>
     <div id="control-panel">
+      <div id="liveAlertPlaceholder"></div>
       <BaseButton content="增加一组" @click.native="addRow" style="background: #94C35C"></BaseButton>
       <BaseButton content="删除一组" @click.native="removeRow" style="background:#DC6561;"></BaseButton>
       <button class="btn-spin"
@@ -188,6 +189,11 @@ export default {
         this.rows[i].items.pop();
         this.rows[i].count--;
       }
+    },
+    alert() {
+      let wrapper = document.createElement('div')
+      wrapper.innerHTML = '<div class="alert alert-danger alert-dismissible" role="alert">' + '<i class="bi bi-exclamation-triangle"></i>' + ' ' + '输入了非数字的相关单元格已经高亮标出，请修改后再点击"开始解题"。' + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+      document.getElementById('liveAlertPlaceholder').append(wrapper);
     },
     changeStatus() {
       this.$emit('changeStatus', this.currentStatus);
@@ -441,7 +447,7 @@ export default {
   float: left;
   width: 60vw;
   left: 5vw;
-  height: 80vh;
+  height: 85vh;
   top: 5vh;
 }
 

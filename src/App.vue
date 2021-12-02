@@ -33,13 +33,6 @@ export default {
 <style>
 
 #app {
-  color: #3C374A;
-  background-image: linear-gradient(transparent 98%, #BDBDBD 98%),
-  linear-gradient(to right, transparent 98%, #BDBDBD 98%);
-  background-size: 30px 30px;
-  background-repeat: repeat;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   overflow: hidden;
 }

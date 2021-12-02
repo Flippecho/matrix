@@ -1,7 +1,7 @@
 <template>
   <div id="footer" class="fixed-bottom">
-    <h3 id="quote">:D 正在加载...</h3>
-    <h3 id="copyright">© 2021 &nbsp; Baluth</h3>
+    <p id="quote">:D 正在加载...</p>
+    <p id="copyright">© 2021 &nbsp; Baluth</p>
   </div>
 </template>
 
@@ -9,9 +9,8 @@
 fetch('https://v1.hitokoto.cn/?c=d&c=i&c=k')
     .then(response => response.json())
     .then(data => {
-      const hitokoto = document.getElementById('quote')
-      hitokoto.href = 'https://hitokoto.cn/?c=d&c=i&c=k' + data.uuid
-      hitokoto.innerText = data.hitokoto
+      const hitokoto = document.getElementById('quote');
+      hitokoto.innerText = data.hitokoto + ' —— ' + data.from;
     })
     .catch(console.error)
 
@@ -23,8 +22,8 @@ export default {
 <style scoped>
 #footer {
   width: 90vw;
-  bottom: calc(5vh - 1em);
   left: 5vw;
+  font-size: 1.5em;
 }
 
 #quote {
