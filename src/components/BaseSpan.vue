@@ -1,5 +1,8 @@
 <template>
-    <span contenteditable="true" @focus="selectText" @input="changeVal($event.target.innerText)">{{currentVal}}</span>
+    <span contenteditable="true"
+          @focus="selectText"
+          @input="changeVal($event.target)"
+          @blur="checkFocus($event.target)">{{currentVal}}</span>
 </template>
 
 <script>
@@ -12,7 +15,8 @@ export default {
   },
   data() {
     return {
-      currentVal: this.value
+      currentVal: this.value,
+      focusFlag: false
     };
   },
   methods: {
@@ -21,8 +25,28 @@ export default {
         document.execCommand('selectAll', false, null)
       }, 0);
     },
-    changeVal(val) {
-      this.$emit("input", parseInt(val)); // 定义input事件
+    alert(message, type) {
+      let wrapper = document.createElement('div')
+      wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+      document.getElementById('liveAlertPlaceholder').append(wrapper);
+    },
+    checkFocus(target) {
+      if(this.focusFlag=== true) target.focus();
+    },
+    changeVal(target) {
+      let val = target.innerText.replace(/\s*/g,"");
+      document.getElementById('liveAlertPlaceholder').innerHTML="";
+      if(val.match(/^-?[1-9]+[0-9]*$|^0$/)) {
+        this.focusFlag = false;
+        this.$emit("input", parseFloat(val.replace(/\s*/g,""))); // 定义input事件
+      }
+      else {
+        this.focusFlag = true;
+        this.alert("你当前输入的是" + val +", 请输入一个整数！", 'danger');
+        setTimeout(function() {
+          document.execCommand('selectAll', false, null)
+        }, 0);
+      }
     }
   }
 }
