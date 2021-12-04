@@ -13,6 +13,7 @@
 body {
     /*overflow: hidden;*/
     text-align: center;
+    font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;
     color: #3C374A;
     background-image: linear-gradient(transparent 98%, #BDBDBD 98%),
     linear-gradient(to right, transparent 98%, #BDBDBD 98%);
