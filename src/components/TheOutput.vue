@@ -1,11 +1,10 @@
 <template>
   <div class="card box-shadow">
     <div class="card-header">
-      <h1 v-if="currentStatus.success">方程有解</h1>
-      <h1 v-else-if="currentStatus.complete">方程无解或有无穷解</h1>
+      <h1 v-if="currentStatus.successFlag">方程有解</h1>
       <h1 v-else>使用说明</h1>
     </div>
-    <div v-if="currentStatus.success" class="table-responsive">
+    <div v-if="currentStatus.successFlag" class="table-responsive">
       <table class="table table-bordered table-hover">
         <thead>
         <tr>
@@ -24,16 +23,12 @@
             </span>
           </td>
           <td class="align-middle">
-            {{item.numerator / item.denominator}}
+            {{Math.round(item.numerator / item.denominator * 1000) / 1000}}
           </td>
         </tr>
         </tbody>
       </table>
     </div>
-    <ul v-else-if="currentStatus.complete" class="list-group list-group-flush">
-      <li class="list-group-item" style="text-align: center">可以检查一下有没有输错哦！</li>
-      <li class="list-group-item"></li>
-    </ul>
     <ul v-else class="list-group list-group-flush">
       <li class="list-group-item">1、点击分子、分母即可修改</li>
       <li class="list-group-item">2、目前仅支持输入整数</li>
@@ -65,8 +60,7 @@ export default {
   data() {
     return {
       initStatus: {
-        success: false,
-        complete: false
+        successFlag: false
       },
       initResult: [
         {
