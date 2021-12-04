@@ -36,9 +36,9 @@ export default {
     changeVal(target) {
       let val = target.innerText.replace(/\s*/g,"");
       document.getElementById('liveAlertPlaceholder').innerHTML="";
-      if(val.match(/^-?[1-9]+[0-9]*$|^0$/)) {
+      if(val.match(/^-?[0-9]*$/)) {
         this.focusFlag = false;
-        this.$emit("input", parseFloat(val.replace(/\s*/g,""))); // 定义input事件
+        this.$emit("input", parseInt(val.replace(/\s*/g,""))); // 定义input事件
       }
       else {
         this.focusFlag = true;
@@ -47,6 +47,7 @@ export default {
           document.execCommand('selectAll', false, null)
         }, 0);
       }
+      this.$emit('changeFocusFlag', this.focusFlag)
     }
   }
 }

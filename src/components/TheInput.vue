@@ -15,14 +15,14 @@
           <th class="align-middle" scope="row">{{ row.id }}</th>
           <td v-for="item in row.items" :key="`${row.id}-${item.id}`">
             <span>
-              <BaseSpan v-model="item.numerator"></BaseSpan>
-              <BaseSpan v-model="item.denominator"></BaseSpan>
+              <BaseSpan v-model="item.numerator" @changeFocusFlag= "changeFocusFlag"></BaseSpan>
+              <BaseSpan v-model="item.denominator" @changeFocusFlag= "changeFocusFlag"></BaseSpan>
             </span>
           </td>
           <td>
             <span>
-              <BaseSpan v-model="row.itemB.numerator">{{ row.itemB.numerator }}</BaseSpan>
-              <BaseSpan v-model="row.itemB.denominator">{{ row.itemB.numerator }}</BaseSpan>
+              <BaseSpan v-model="row.itemB.numerator" @changeFocusFlag= "changeFocusFlag">{{ row.itemB.numerator }}</BaseSpan>
+              <BaseSpan v-model="row.itemB.denominator" @changeFocusFlag= "changeFocusFlag">{{ row.itemB.numerator }}</BaseSpan>
             </span>
           </td>
         </tr>
@@ -34,6 +34,7 @@
       <BaseButton content="增加一组" @click.native="addRow" style="background: #94C35C"></BaseButton>
       <BaseButton content="删除一组" @click.native="removeRow" style="background:#DC6561;"></BaseButton>
       <button class="btn-spin"
+              :disabled="status.focusFlag"
               @click="calculate"
               data-content-default="开始解题"
               data-content-spinning="稍等片刻">
@@ -52,9 +53,9 @@ export default {
   data() {
     return {
       count: 3,
-      currentStatus: {
-        complete: false,
-        success: false
+      status: {
+        successFlag: false,
+        focusFlag: false
       },
       result: [],
       rows: [
@@ -191,10 +192,18 @@ export default {
       }
     },
     changeStatus() {
-      this.$emit('changeStatus', this.currentStatus);
+      this.$emit('changeStatus', this.status);
+    },
+    changeFocusFlag(focusFlag) {
+      this.status.focusFlag = focusFlag;
     },
     changeResult() {
       this.$emit('changeResult', this.result);
+    },
+    alert(message, type) {
+      let wrapper = document.createElement('div')
+      wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+      document.getElementById('liveAlertPlaceholder').append(wrapper);
     },
     calculate() {
       //辗转相除法求最大公约数
@@ -323,6 +332,8 @@ export default {
       console.clear();
       //清除 result[]
       this.result = [];
+      //清除状态提示
+      document.getElementById('liveAlertPlaceholder').innerHTML="";
 
       //将数据拷贝到的数组(i行j列)
       for (let i = 0; i < n; i++) {
@@ -363,7 +374,8 @@ export default {
         if (max === 0) {
           console.log("");
           console.log("矩阵非奇异,该方程无解或有无穷解");
-          this.currentStatus.complete = true;
+          this.alert("你当前输入的方程组无解或有无穷解！", 'primary');
+          this.status.successFlag = false;
           this.changeStatus();
           return;
         }
@@ -427,8 +439,7 @@ export default {
       console.table(list);
       console.log(this.result);
 
-      this.currentStatus.success = true;
-      this.currentStatus.complete = true;
+      this.status.successFlag = true;
       this.changeResult();
       this.changeStatus();
     }
